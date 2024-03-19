@@ -9,7 +9,7 @@
 # 1)  We made the parameter Mandatory. If user omits it, he will be asked to 
 # provide it.
 # 2) We ensure that the parameter is not an empty string.
-# 3) We endure that the path entered is converted to string type,
+# 3) We ensure that the path entered is converted to string type,
 # that way it will accept numbers and booleans (true/false) as file name
 # =============================================================================
 Param(

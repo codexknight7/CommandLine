@@ -12,12 +12,33 @@
 
 Param(
     [string]$SourcePath = './app',
-    [string]$DestinationPath = './'
+    [string]$DestinationPath = './',
+    [switch]$PathIsWebApp
 )
 
 If(-Not(Test-Path $SourcePath))
 {
     Throw "The source directory $SourcePath does not exist, please specify an existing directory."
+}
+
+If($PathIsWebApp -eq $True)
+{
+  try {
+    # look inside the folder and check if there are files with extension: .js or .html, or .css
+    $ContainsApplicationFiles = "$((Get-ChildItem $SourcePath).Extension | Sort-Object -Unique)" -match  '\.js|\.html|\.css'
+
+    If(-Not $ContainsApplicationFiles){
+      Throw "Not a web app."
+    }Else{
+      Write-Host 'Source files look good, continuing...'
+    }
+  }
+  catch {
+    {
+      Throw "No backup created due to: $($_.Exception.Message)"   
+      exit         
+    }
+  }
 }
 
 $date = Get-Date -format "yyyy-MM-dd"
